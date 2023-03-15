@@ -4,10 +4,9 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Departments(int id,string name )
+        public Departments()
         {
-            Name = name;
-            Id = id;
+
         }
     }
 }
