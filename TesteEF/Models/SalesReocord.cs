@@ -13,9 +13,8 @@ namespace TesteEF.Models
         {
 
         }
-        public SalesRecord(int id, DateTime date, double amount, SaleStatus status, Seller seller)
+        public SalesRecord(DateTime date, double amount, SaleStatus status, Seller seller)
         {
-            Id = id;
             Date = date;
             Amout = amount;
             Status = status;

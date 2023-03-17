@@ -12,14 +12,28 @@ namespace TesteEF
             var result = builder.Services.AddDbContext<TesteEFContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("TesteEFContext") ?? throw new InvalidOperationException("Connection string 'TesteEFContext' not found.")));
 
-           
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<SeedingService>();
 
             var app = builder.Build();
+
+            SeedDatabase();
+
+            void SeedDatabase()
+            {
+                using (var scope = app.Services.CreateScope())
+                    try
+                    {
+                        var scopedContext = scope.ServiceProvider.GetRequiredService<TesteEFContext>();
+                        SeedingService.Seed(scopedContext);
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+            }
 
 
 
@@ -31,9 +45,7 @@ namespace TesteEF
                 app.UseHsts();
             }
             else if(app.Environment.IsDevelopment())
-            {
-                app.UseItToSeedSqlServer();
-            }
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
