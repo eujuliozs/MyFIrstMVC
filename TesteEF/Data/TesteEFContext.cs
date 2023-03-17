@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using TesteEF.Models.Departments;
+using TesteEF.Models;
+using TesteEF.Models.Enums;
 
 namespace TesteEF.Data
 {
@@ -14,6 +15,8 @@ namespace TesteEF.Data
         {
         }
 
-        public DbSet<TesteEF.Models.Departments.Departments> Departments { get; set; } = default!;
+        public DbSet<Department> Departments { get; set; } = default!;
+        public DbSet<SalesRecord> SalesRecords { get; set; } = default!;
+        public DbSet<Seller> Seller { get; set; } = default!;
     }
 }
