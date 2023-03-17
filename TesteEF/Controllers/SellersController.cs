@@ -10,85 +10,87 @@ using TesteEF.Models;
 
 namespace TesteEF.Controllers
 {
-    public class DepartmentsController : Controller
+    public class SellersController : Controller
     {
         private readonly TesteEFContext _context;
 
-        public DepartmentsController(TesteEFContext context)
+        public SellersController(TesteEFContext context)
         {
             _context = context;
         }
 
-        // GET: Departments
+        // GET: Sellers
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Department.ToListAsync());
+              return _context.Seller != null ? 
+                          View(await _context.Seller.ToListAsync()) :
+                          Problem("Entity set 'TesteEFContext.Seller'  is null.");
         }
 
-        // GET: Departments/Details/5
+        // GET: Sellers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Department == null)
+            if (id == null || _context.Seller == null)
             {
                 return NotFound();
             }
 
-            var departments = await _context.Department
+            var seller = await _context.Seller
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (departments == null)
+            if (seller == null)
             {
                 return NotFound();
             }
 
-            return View(departments);
+            return View(seller);
         }
 
-        // GET: Departments/Create
+        // GET: Sellers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Departments/Create
+        // POST: Sellers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Department departments)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,BirthDate,BaseSalary")] Seller seller)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(departments);
+                _context.Add(seller);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(departments);
+            return View(seller);
         }
 
-        // GET: Departments/Edit/5
+        // GET: Sellers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Department == null)
+            if (id == null || _context.Seller == null)
             {
                 return NotFound();
             }
 
-            var departments = await _context.Department.FindAsync(id);
-            if (departments == null)
+            var seller = await _context.Seller.FindAsync(id);
+            if (seller == null)
             {
                 return NotFound();
             }
-            return View(departments);
+            return View(seller);
         }
 
-        // POST: Departments/Edit/5
+        // POST: Sellers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Department departments)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,BirthDate,BaseSalary")] Seller seller)
         {
-            if (id != departments.Id)
+            if (id != seller.Id)
             {
                 return NotFound();
             }
@@ -97,12 +99,12 @@ namespace TesteEF.Controllers
             {
                 try
                 {
-                    _context.Update(departments);
+                    _context.Update(seller);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DepartmentsExists(departments.Id))
+                    if (!SellerExists(seller.Id))
                     {
                         return NotFound();
                     }
@@ -113,49 +115,49 @@ namespace TesteEF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(departments);
+            return View(seller);
         }
 
-        // GET: Departments/Delete/5
+        // GET: Sellers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Department == null)
+            if (id == null || _context.Seller == null)
             {
                 return NotFound();
             }
 
-            var departments = await _context.Department
+            var seller = await _context.Seller
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (departments == null)
+            if (seller == null)
             {
                 return NotFound();
             }
 
-            return View(departments);
+            return View(seller);
         }
 
-        // POST: Departments/Delete/5
+        // POST: Sellers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Department == null)
+            if (_context.Seller == null)
             {
-                return Problem("Entity set 'TesteEFContext.Departments'  is null.");
+                return Problem("Entity set 'TesteEFContext.Seller'  is null.");
             }
-            var departments = await _context.Department.FindAsync(id);
-            if (departments != null)
+            var seller = await _context.Seller.FindAsync(id);
+            if (seller != null)
             {
-                _context.Department.Remove(departments);
+                _context.Seller.Remove(seller);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DepartmentsExists(int id)
+        private bool SellerExists(int id)
         {
-          return _context.Department.Any(e => e.Id == id);
+          return (_context.Seller?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
