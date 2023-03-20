@@ -12,8 +12,7 @@ namespace TesteEF.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        [Column(TypeName= "Date")]
-        public DateOnly BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
         public double BaseSalary { get; set; }
         public  Department Department { get; set; }
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
@@ -21,7 +20,7 @@ namespace TesteEF.Models
         {
 
         }
-        public Seller(string name, string email, DateOnly birthDate, double baseSalary, Department department)
+        public Seller(string name, string email, DateTime birthDate, double baseSalary, Department department)
         {
             Name = name;
             Email = email;
@@ -38,7 +37,7 @@ namespace TesteEF.Models
         {
             Sales.Remove(sale);
         }
-        public double TotalSales(DateOnly beginning, DateOnly end)
+        public double TotalSales(DateTime beginning, DateTime end)
         {
             IEnumerable<double> resultado =
                 from s in Sales
@@ -46,6 +45,10 @@ namespace TesteEF.Models
                 select s.Amout;
 
             return resultado.Sum();
+        }
+        public string Data()
+        {
+            return BirthDate.ToString(CultureInfo.InvariantCulture);
         }
     }
 }
