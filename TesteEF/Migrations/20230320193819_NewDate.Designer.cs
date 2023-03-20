@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TesteEF.Data;
 
@@ -11,9 +12,10 @@ using TesteEF.Data;
 namespace TesteEF.Migrations
 {
     [DbContext(typeof(TesteEFContext))]
-    partial class TesteEFContextModelSnapshot : ModelSnapshot
+    [Migration("20230320193819_NewDate")]
+    partial class NewDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +53,7 @@ namespace TesteEF.Migrations
                         .HasColumnType("float");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("Date");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SellerId")
                         .HasColumnType("int");
@@ -78,7 +80,7 @@ namespace TesteEF.Migrations
                         .HasColumnType("float");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("Date");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");

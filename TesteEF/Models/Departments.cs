@@ -21,7 +21,7 @@ namespace TesteEF.Models
         {
             Sellers.Add(seller);
         }
-        public double TotalSales(DateTime beginning, DateTime end)
+        public double TotalSales(DateOnly beginning, DateOnly end)
         {
             double resultado = Sellers.Sum(seller => seller.TotalSales(beginning, end));
             return resultado; 

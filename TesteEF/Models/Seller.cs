@@ -1,4 +1,10 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.InteropServices;
+
 namespace TesteEF.Models
 {
     public class Seller
@@ -6,7 +12,8 @@ namespace TesteEF.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public DateTime BirthDate { get; set; }
+        [Column(TypeName= "Date")]
+        public DateOnly BirthDate { get; set; }
         public double BaseSalary { get; set; }
         public  Department Department { get; set; }
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
@@ -14,12 +21,12 @@ namespace TesteEF.Models
         {
 
         }
-        public Seller(string name, string email, DateTime birthDate, double baseSalary, Department department)
+        public Seller(string name, string email, DateOnly birthDate, double baseSalary, Department department)
         {
             Name = name;
             Email = email;
-            BirthDate = birthDate;
-            BaseSalary = baseSalary;
+            BirthDate = (birthDate);
+            BaseSalary = baseSalary; 
             Department = department;
         }
 
@@ -31,7 +38,7 @@ namespace TesteEF.Models
         {
             Sales.Remove(sale);
         }
-        public double TotalSales(DateTime beginning, DateTime end)
+        public double TotalSales(DateOnly beginning, DateOnly end)
         {
             IEnumerable<double> resultado =
                 from s in Sales
