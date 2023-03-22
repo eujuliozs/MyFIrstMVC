@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TesteEF.Models.Service;
 using Microsoft.Extensions.DependencyInjection;
 using NuGet.Packaging;
 using TesteEF.Data;
@@ -16,6 +17,8 @@ namespace TesteEF
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<SeedingService>();
+
+            builder.Services.AddScoped<SellerService>();
 
             var app = builder.Build();
 

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<TestingCollection>
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Index</h1>
+<table class="table table-striper table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(modelitem => modelitem.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(modelitem => modelitem.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach(var item in Model)
+    {
+    
+            <tr>
+                <td>
+                    @Html.DisplayFor(Model => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(Model => item.Name)
+                </td>
+            </tr>
+    
+    }
+    </tbody>
+</table>
+
