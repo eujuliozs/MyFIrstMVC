@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TesteEF.Data;
 
@@ -11,9 +12,10 @@ using TesteEF.Data;
 namespace TesteEF.Migrations
 {
     [DbContext(typeof(TesteEFContext))]
-    partial class TesteEFContextModelSnapshot : ModelSnapshot
+    [Migration("20230327135357_denovo")]
+    partial class denovo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,11 +113,13 @@ namespace TesteEF.Migrations
 
             modelBuilder.Entity("TesteEF.Models.Seller", b =>
                 {
-                    b.HasOne("TesteEF.Models.Department", null)
+                    b.HasOne("TesteEF.Models.Department", "Department")
                         .WithMany("Sellers")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("TesteEF.Models.Department", b =>
