@@ -20,6 +20,8 @@ namespace TesteEF
 
             builder.Services.AddScoped<SellerService>();
 
+            builder.Services.AddScoped<DepartmentsService>();
+
             var app = builder.Build();
 
             SeedDatabase();

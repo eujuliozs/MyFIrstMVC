@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TesteEF.Models.Service;
 using TesteEF.Models;
+using TesteEF.Models.ViewModel;
 
 namespace TesteEF.Controllers
 {
     public class SellersController : Controller
     {
         private readonly SellerService _sellerService;
-        public SellersController(SellerService sellerService)
+        private readonly DepartmentsService _departmentService; 
+        public SellersController(SellerService sellerService, DepartmentsService departmentService)
         {
             _sellerService = sellerService;
+            _departmentService = departmentService;
         }
         public IActionResult Index()
         {
@@ -18,7 +21,9 @@ namespace TesteEF.Controllers
         }
         public IActionResult Create()
         {
-            return View();
+            var list = _departmentService.FindAll();
+            var ViewModel = new SellerFormViewModel(list);
+            return View(ViewModel);
         }
 
         [HttpPost]

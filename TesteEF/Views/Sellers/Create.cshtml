@@ -1,4 +1,4 @@
-﻿@model Seller 
+﻿@model TesteEF.Models.ViewModel.SellerFormViewModel
 @{
     ViewData["Title"] = "Create";
 }
@@ -12,23 +12,29 @@
         <form asp-action="Create">
 
             <div class="form-group row">
-                <label asp-for="Name" class="form-control-plaintext"></label>
-                <input asp-for="Name"/>
+                <label asp-for="Seller.Name" class="form-control-plaintext"></label>
+                <input asp-for="Seller.Name"/>
             </div> 
             
             <div class="form-group row">
-                <label asp-for="Email" class="form-control-plaintext"></label>
-                <input asp-for="Email" />
+                <label asp-for="Seller.Email" class="form-control-plaintext"></label>
+                <input asp-for="Seller.Email" />
             </div> 
             
             <div class="form-group row">
-                <label asp-for="BirthDate" class="form-control-plaintext"></label>
-                <input asp-for="BirthDate" />
+                <label asp-for="Seller.BirthDate" class="form-control-plaintext"></label>
+                <input asp-for="Seller.BirthDate" />
             </div>
             
             <div class="form-group row">
-                <label asp-for="BaseSalary" class="form-control-plaintext"></label>
-                <input asp-for="BaseSalary" />
+                <label asp-for="Seller.BaseSalary" class="form-control-plaintext"></label>
+                <input asp-for="Seller.BaseSalary" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Seller.Department" class="control-label"></label>
+                <select asp-for="Seller.Department" asp-items=
+                "@(new SelectList(Model.Departments,"Id","Name"))" class="form-control"></select>
+
             </div>
             <hr />
             <div class="form-group row">
