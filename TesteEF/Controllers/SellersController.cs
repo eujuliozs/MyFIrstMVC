@@ -53,5 +53,17 @@ namespace TesteEF.Controllers
             _sellerService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var seller = _sellerService.FindById(id.Value);
+            var department = _departmentService.FindById(seller.DepartmentId);
+            var viewmodel = new SellerDetailViewModel(department, seller);
+            return View(viewmodel);
+        }
     }
 }

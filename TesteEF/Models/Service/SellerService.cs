@@ -1,4 +1,5 @@
-﻿using TesteEF.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using TesteEF.Data;
 
 namespace TesteEF.Models.Service
 {
@@ -20,7 +21,7 @@ namespace TesteEF.Models.Service
         }
         public Seller FindById(int id) 
         {
-            return _context.Seller.FirstOrDefault(obj => obj.Id == id);
+            return _context.Seller.Where(seller => seller.Id == id).SingleOrDefault();
         }
         public void Remove(int id) 
         {

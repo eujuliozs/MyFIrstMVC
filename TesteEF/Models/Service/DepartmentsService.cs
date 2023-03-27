@@ -12,5 +12,9 @@ namespace TesteEF.Models.Service
         { 
             return _context.Department.OrderBy(dp => dp.Name).ToList();
         }
+        public Department FindById(int id)
+        {
+            return _context.Department.Where(dp => dp.Id == id).SingleOrDefault();
+        }
     }
 }

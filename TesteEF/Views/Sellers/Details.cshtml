@@ -1,0 +1,51 @@
+﻿@model TesteEF.Models.ViewModel.SellerDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Seller</h4>
+    <hr />
+    <d1 class="list-group-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Seller.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Seller.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seller.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Seller.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seller.BirthDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Seller.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seller.BaseSalary)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Seller.BaseSalary)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+    </d1>
+</div>
+<div>
+    <a  class="btn-danger" asp-action="Edit" asp-route-id="@Model.Seller.Id" >Edit</a>
+    <a asp-action="Inde">Back To List</a>
+</div>
+
