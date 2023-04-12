@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TesteEF.Data;
 
@@ -11,9 +12,10 @@ using TesteEF.Data;
 namespace TesteEF.Migrations
 {
     [DbContext(typeof(TesteEFContext))]
-    partial class TesteEFContextModelSnapshot : ModelSnapshot
+    [Migration("20230412182316_DepatmentProp")]
+    partial class DepatmentProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +49,7 @@ namespace TesteEF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<double>("Amount")
+                    b.Property<double>("Amout")
                         .HasColumnType("float");
 
                     b.Property<DateTime>("Date")

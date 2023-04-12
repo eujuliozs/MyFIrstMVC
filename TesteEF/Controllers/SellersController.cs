@@ -7,6 +7,7 @@ using TesteEF.Models.Service.NewFolder;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using NuGet.Protocol.Plugins;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace TesteEF.Controllers
 {
@@ -25,17 +26,24 @@ namespace TesteEF.Controllers
             var list = _sellerService.FindAll();
             return View(list);
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var list = _departmentService.FindAll();
+
+            var list =  _departmentService.FindAll();
             var ViewModel = new SellerFormViewModel() { Departments=list};
             return View(ViewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Seller seller) 
+        public async Task<IActionResult> Create(Seller seller) 
         {
-            _sellerService.Insert(seller);
+            if(!ModelState.IsValid)
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Departments = departments, Seller = seller };
+                return View(viewModel);
+            }
+            await _sellerService.InsertAsync(seller);
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Delete(int? id)
@@ -54,12 +62,19 @@ namespace TesteEF.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _sellerService.Remove(id);
-            return RedirectToAction(nameof(Index));
+            try 
+            { 
+                await _sellerService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch(IntegrityException Ie)
+            {
+                return RedirectToAction(nameof(Error), new {Message=Ie.Message});
+            }
         }
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -67,7 +82,7 @@ namespace TesteEF.Controllers
             }
 
             var seller = _sellerService.FindById(id.Value);
-            var department = _departmentService.FindById(seller.DepartmentId);
+            var department = await _departmentService.FindByIdAsync(seller.Id);
             var viewmodel = new SellerDetailViewModel(department, seller);
             return View(viewmodel);
         }
@@ -84,13 +99,19 @@ namespace TesteEF.Controllers
             }
             var departmens = _departmentService.FindAll();
 
-            var viewmodel = new SellerFormViewModel() { Departments=departmens, Seller=obj};
+            var viewmodel = new SellerFormViewModel() { Departments = departmens , Seller=obj};
             return View(viewmodel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Seller seller)
+        public async Task<IActionResult> Edit(int id, Seller seller)
         {
+            if (!ModelState.IsValid)
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Departments=departments, Seller=seller};
+                return View(viewModel);
+            }
             if (id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new
@@ -100,7 +121,7 @@ namespace TesteEF.Controllers
             }
             try 
             {
-                _sellerService.Update(seller);
+                await _sellerService.UpdateAsync(seller);
                 return RedirectToAction(nameof(Index));
             }
             catch (ApplicationException ex) 

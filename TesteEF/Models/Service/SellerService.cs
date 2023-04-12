@@ -2,6 +2,7 @@
 using TesteEF.Models.Service.Exceptions;
 using TesteEF.Data;
 using TesteEF.Models.Service.NewFolder;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace TesteEF.Models.Service
 {
@@ -16,22 +17,29 @@ namespace TesteEF.Models.Service
         {
             return _context.Seller.ToList();
         }
-        public void Insert(Seller obj)
+        public async Task InsertAsync(Seller obj)
         {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
         public Seller? FindById(int id) 
         {
             return _context.Seller.Where(seller => seller.Id == id).SingleOrDefault();
         }
-        public void Remove(int id) 
+        public async Task RemoveAsync(int id) 
         {
-            var obj = _context.Seller.Find(id);
-            _context.Remove(obj);
-            _context.SaveChanges();
+            var obj = FindById(id);
+            try 
+            {
+                _context.Remove(obj);
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateException Ex)
+            {
+                throw new IntegrityException(Ex.Message);
+            }
         }
-        public void Update(Seller obj)
+        public async Task UpdateAsync(Seller obj)
         {
             if (obj is null)
             {

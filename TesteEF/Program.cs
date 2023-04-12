@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TesteEF.Models.Service;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using NuGet.Packaging;
 using TesteEF.Data;
@@ -22,7 +24,22 @@ namespace TesteEF
 
             builder.Services.AddScoped<DepartmentsService>();
 
+            builder.Services.AddScoped<SalesRecordService>();
+
+            var enUS = new CultureInfo("en-US");
+
+            var locals = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(enUS),
+                SupportedCultures = new List<CultureInfo>
+                { enUS },
+                SupportedUICultures = new List<CultureInfo> { enUS }
+            };
+
+
             var app = builder.Build();
+
+            app.UseRequestLocalization(locals);
 
             SeedDatabase();
 
@@ -39,6 +56,7 @@ namespace TesteEF
                         throw;
                     }
             }
+           
 
 
 

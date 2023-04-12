@@ -1,4 +1,5 @@
 ﻿using TesteEF.Data;
+using Microsoft.EntityFrameworkCore;
 namespace TesteEF.Models.Service
 {
     public class DepartmentsService
@@ -8,13 +9,13 @@ namespace TesteEF.Models.Service
         {
             _context = context;
         }
-        public List<Department>FindAll()
+        public List<Department> FindAll()
         { 
             return _context.Department.OrderBy(dp => dp.Name).ToList();
         }
-        public Department FindById(int id)
+        public async Task<Department> FindByIdAsync(int id)
         {
-            return _context.Department.Where(dp => dp.Id == id).SingleOrDefault();
+            return await _context.Department.Where(dp => dp.Id == id).SingleOrDefaultAsync();
         }
     }
 }
