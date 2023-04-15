@@ -24,7 +24,7 @@ namespace TesteEF.Controllers
         {
             return View();
         }
-        public IActionResult SimpleSearch(DateTime? minDate, DateTime? maxDate) 
+        public IActionResult Search(DateTime? minDate, DateTime? maxDate) 
         {
             if (!minDate.HasValue)
             {
@@ -35,13 +35,25 @@ namespace TesteEF.Controllers
                 maxDate = DateTime.Now;
             }
             ViewData["minDate"] = minDate.Value.ToString("yyyy-MM-dd");
-            ViewData["maxDate"] = maxDate.Value.ToString("yyyy-MM-dd"); ;
+            ViewData["maxDate"] = maxDate.Value.ToString("yyyy-MM-dd");
             IEnumerable<SalesRecord> query = _saleService.FindByDate(minDate, maxDate);
             return View(query);   
         }
-        public IActionResult GropingSearch()
+        public IActionResult GroupingSearch(DateTime? minDate, DateTime? maxDate)
         {
-            return View();
+            if (!minDate.HasValue)
+            {
+                minDate = new DateTime(2018, 1, 1);
+            }
+            if (!maxDate.HasValue)
+            {
+                maxDate = DateTime.Now;
+            }
+            ViewData["minDate"] = minDate.Value.ToString("yyyy-MM-dd");
+            ViewData["maxDate"] = maxDate.Value.ToString("yyyy-MM-dd");
+            List<Department> all_departments = _departmentsService.FindAll();
+            Dictionary<Department, List<SalesRecord>> query = _saleService.GroupingSearch(minDate, maxDate, all_departments);
+            return View(query);
         }
 
 

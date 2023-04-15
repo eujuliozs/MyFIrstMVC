@@ -57,9 +57,8 @@ namespace TesteEF.Models
         {
             IEnumerable<double> resultado =
                 from s in Sales
-                where s.Date >= beginning & s.Date <= end
+                where s.Date >= beginning && s.Date <= end
                 select s.Amount;
-
             return resultado.Sum();
         }
         public string Data()
